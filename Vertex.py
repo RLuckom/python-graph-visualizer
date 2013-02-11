@@ -12,13 +12,13 @@ class Vertex(object):
         printstr = "Vertex {0}\n\tType: {1}\n".format(self.name, self.type)
         for edge in self.edges:
             printstr += '\n\tConnected to vertex {0} by an edge of weight {1}'.format(edge, self.edges[edge])
-        return printstr + '\n'
+        return printstr + '\n\n'
 
     def add_edge(self, other_vertex, weight=None):
         if other_vertex in self.edges:
             raise Exception("Vertex {0} already connected to vertex {1}. Support for multiple connections between vertices not implemented.".format(other_vertex, self.name))
         else:
-            self.edges[other_vertex]=weight
+            self.edges[other_vertex] = weight
 
 
 if __name__ == '__main__':

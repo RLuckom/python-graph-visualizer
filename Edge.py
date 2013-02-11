@@ -9,7 +9,7 @@ class Edge(object):
         self.weight = weight
 
     def __str__(self):
-        return "Edge of weight {0} connnecting vertex {1} to vertex {2}.".format(self.weight, self.from_vertex, self.to_vertex)
+        return "Edge {0}{1}, weight {2}.".format(self.from_vertex, self.to_vertex, self.weight)
 
 
 if __name__ == '__main__':
