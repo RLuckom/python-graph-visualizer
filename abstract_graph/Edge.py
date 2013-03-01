@@ -8,7 +8,7 @@ class Edge(object):
         """Constructor
 
         @type from_vertex: object
-        @param from_vertex: conventionally a string; something unabiguously
+        @param from_vertex: conventionally a string; something unambiguously
                             representing the vertex at which the edge originates
         @type to_vertex: object
         @param to_vertex: conventionally a string; something unabiguously

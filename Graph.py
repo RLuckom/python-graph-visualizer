@@ -166,3 +166,4 @@ if __name__ == '__main__':
     graph.add_undirected_edge('E', 'G', 9)
     graph.add_undirected_edge('F', 'G', 11)
     print [str(edge) for edge in graph.minimum_spanning_tree()]
+    graph.visualize_graph()
