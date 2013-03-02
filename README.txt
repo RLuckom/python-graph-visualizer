@@ -16,3 +16,11 @@ Documented everything.
 Combined redundant graph classes into a single class.
 removed graph internals from ContributionList.
 TODO: add functionality to the visualization
+
+2013.03.02
+Added autocoloring of nodes by type--each type is randomly assigned a color;
+colors are distributed evenly through the colorspace based on the total number 
+of types.
+Experimented with different GraphLayoutStrategies. I've been thinking about 
+turning the Graph class into a subclass of vtk.MutableDirectedGraph so it's easier
+to set properties without modifying the class.

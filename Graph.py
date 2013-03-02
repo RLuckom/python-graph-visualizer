@@ -30,6 +30,10 @@ class Graph(object):
         self._labels.SetNumberOfComponents(1)
         self._labels.SetName('labels')
         self._graph = vtk.vtkMutableDirectedGraph()
+        self._color_picker = vtk.vtkColorSeries()
+        self._color_dict = {}
+        self._colors = []
+        self._vertex_types = 1
 
     def __str__(self):
         """printstr
@@ -56,6 +60,10 @@ class Graph(object):
             self._labels.InsertNextValue(vertex_name)
             self._vertex_dict[vertex_name] = self.vertex_tuple(Vertex(vertex_name, vertex_type),
                                                                self._graph.AddVertex())
+            if vertex_type not in self._color_dict:
+                self._color_dict[vertex_type] = self._vertex_types
+                self._vertex_types += 1
+            self._colors.append(self._color_dict[vertex_type])
 
     def add_undirected_edge(self, vertex_one, vertex_two, weight=None):
         """Adds directed edges of the same weight between two nodes
@@ -101,19 +109,27 @@ class Graph(object):
         """shows a visualization of the graph"""
         self._graph.GetVertexData().AddArray(self._labels)
         self._graph.GetEdgeData().AddArray(self._weights)
-
+        colors = vtk.vtkUnsignedCharArray()
+        colors.SetNumberOfComponents(1)
+        colors.SetName('Colors')
+        types = int(245 / len(self._color_dict))
+        for c in self._colors:
+            colors.InsertNextValue(int(c * types))
+        self._graph.GetVertexData().AddArray(colors)
         graphLayoutView = vtk.vtkGraphLayoutView()
         graphLayoutView.AddRepresentationFromInput(self._graph)
-        graphLayoutView.SetLayoutStrategy("Simple 2D")
+        graphLayoutView.SetLayoutStrategy(vtk.vtkSpanTreeLayoutStrategy())
         graphLayoutView.GetLayoutStrategy().SetEdgeWeightField("Weights")
         graphLayoutView.GetLayoutStrategy().SetWeightEdges(1)
         graphLayoutView.SetEdgeLabelArrayName("Weights")
         graphLayoutView.SetEdgeLabelVisibility(1)
         graphLayoutView.SetVertexLabelArrayName('labels')
         graphLayoutView.SetVertexLabelVisibility(1)
+        graphLayoutView.SetVertexColorArrayName('Colors')
+        graphLayoutView.SetColorVertices(1)
+        graphLayoutView.SetInteractorStyle(vtk.vtkInteractorStyleJoystickCamera())
         graphLayoutView.ResetCamera()
         graphLayoutView.Render()
-        graphLayoutView.GetLayoutStrategy().SetRandomSeed(0)
         graphLayoutView.GetInteractor().Start()
 
     def minimum_spanning_tree(self):
@@ -147,13 +163,13 @@ class Graph(object):
 
 if __name__ == '__main__':
     graph = Graph('wikipedia example')
-    graph.add_vertex('A')
-    graph.add_vertex('B')
-    graph.add_vertex('C')
-    graph.add_vertex('D')
-    graph.add_vertex('E')
-    graph.add_vertex('F')
-    graph.add_vertex('G')
+    graph.add_vertex('A', 1)
+    graph.add_vertex('B', 2)
+    graph.add_vertex('C', 3)
+    graph.add_vertex('D', 2)
+    graph.add_vertex('E', 1)
+    graph.add_vertex('F', 4)
+    graph.add_vertex('G', 1)
     graph.add_undirected_edge('A', 'D', 5)
     graph.add_undirected_edge('A', 'B', 7)
     graph.add_undirected_edge('B', 'C', 8)
