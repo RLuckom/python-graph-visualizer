@@ -24,3 +24,10 @@ of types.
 Experimented with different GraphLayoutStrategies. I've been thinking about 
 turning the Graph class into a subclass of vtk.MutableDirectedGraph so it's easier
 to set properties without modifying the class.
+
+2013.03.03
+Added an interactor style that makes sense to me. By default, the arrow keys 
+perform translation. When holding CTRL, they rotate the camera. When holding 
+SHIFT, the up and down arrows zoom in and out. Right now all of the step sizes 
+are hard-coded--I need to figure out a way to autoscale them based on the size
+of the graph.

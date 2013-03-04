@@ -6,6 +6,7 @@ import vtk
 
 from abstract_graph.Vertex import Vertex
 from abstract_graph.Edge import Edge
+from Interactor import MouseAndKeysInteractor
 
 
 class Graph(object):
@@ -121,13 +122,14 @@ class Graph(object):
         graphLayoutView.SetLayoutStrategy(vtk.vtkSpanTreeLayoutStrategy())
         graphLayoutView.GetLayoutStrategy().SetEdgeWeightField("Weights")
         graphLayoutView.GetLayoutStrategy().SetWeightEdges(1)
+        graphLayoutView.GetRenderer().GetActiveCamera().ParallelProjectionOff()
         graphLayoutView.SetEdgeLabelArrayName("Weights")
         graphLayoutView.SetEdgeLabelVisibility(1)
         graphLayoutView.SetVertexLabelArrayName('labels')
         graphLayoutView.SetVertexLabelVisibility(1)
         graphLayoutView.SetVertexColorArrayName('Colors')
         graphLayoutView.SetColorVertices(1)
-        graphLayoutView.SetInteractorStyle(vtk.vtkInteractorStyleJoystickCamera())
+        graphLayoutView.SetInteractorStyle(MouseAndKeysInteractor(graphLayoutView))
         graphLayoutView.ResetCamera()
         graphLayoutView.Render()
         graphLayoutView.GetInteractor().Start()
